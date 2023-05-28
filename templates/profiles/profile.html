@@ -1,0 +1,135 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<style>
+  .profile
+        {
+          position: absolute;
+          margin: auto;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          width: 400px;
+          height: 400px;
+          background-color: #ccc;
+          border-radius: 30px;
+        }
+  .profile img {
+            display: block;
+            margin: 0 auto;
+          }
+  .profile button{
+            display: block;
+            margin: 0 auto;
+          }
+  .follow-container {
+            height: 60px; 
+            margin-top: 20px;
+          }
+          
+  .follow-button {
+            border-radius: 30px;
+            background-color: #ccc;
+          }
+  
+</style>
+
+<div class="main showcase profile">
+<h1> {{user_info.user.username}}'s profile</h1>
+<div>
+  {% if user_info.profile_pic %}
+  <img src="{{ user_info.profile_image.url }}" alt="Profile Picture" style="width: 200px; height: 200px; border-radius: 50%;">
+{% endif %}
+<div style="{% if not user_info.profile_pic %}height: 200px;{% endif %}">
+  {% if not user_info.profile_pic %}
+    <p>Nu exista poza de profil.</p>
+  {% endif %}
+</div>
+</div>
+<div> 
+{%if user_info.date_of_birth%}
+<p><strong>Data nasterii: </strong>{{user_info.date_of_birth}}</p>
+{%else%}
+   <p></p>
+{% endif%}
+
+{%if user_info.current_weight%}
+<p><strong>Greutatea curenta: </strong>{{user_info.current_weight}} kg</p>
+{%else%}
+   <p></p></br></br></br>
+{%endif%}
+
+
+
+
+
+{%if user.is_authenticated %}
+{% if user.get_username == user_info.user.username%}
+{%if user_info.date_of_birth is None and user_info.current_weight is None%}
+
+<a href="/profile/edit/{{user.get_username}}"><button style="background-color: black; color: white; border-radius: 10px;">Profilul este gol. Adauga niste date.</button></a>
+{%else%}
+<a href="/profile/edit/{{user.get_username}}"><button style="background-color: black; color: white; border-radius: 10px;"><strong>Editeaza profilul.<strong></button></a>
+</br>
+</br>
+</br>
+<a href="{% url 'user_posts' username=user_info.user.username %}"><button style="background-color: black; 
+  color: white; border-radius: 10px; font-style: italic;
+  font-size:20px;">Vizualizati propriile postari
+  </button>
+  </a>
+<a href="{% url 'followings_posts' username=user_info.user.username %}"><button style="background-color: black; 
+  color: white; border-radius: 10px; font-style: italic;
+  font-size:20px;">Vizualizatie postarile persoanelor urmarite
+  </button>
+  </a>
+<a href="{% url 'my-follows' username %}">
+    <button style="background-color: black; color: white; border-radius: 10px; font-style: italic;
+    font-size:20px;">Urmariri si urmaritori</button>
+  </a>
+<a href="{% url 'progress_list' username=user_info.user.username %}">
+  <button style="background-color: black; color: white; border-radius: 10px; font-style: italic;
+  font-size:20px;">Progresul meu</button>
+   </a>
+{%endif%}
+{%endif%}
+{%endif%}
+
+
+</div>
+
+</br></br></br>
+{% if username != request.user.username %}
+<div class="follow-container">
+    {% if is_following %}
+    
+        <form action="{% url 'unfollow' username %}" method="POST" class="follow-button">
+            {% csrf_token %}
+            <button style="background-color: black; color: white; border-radius: 10px;" type="submit" class="btn btn-danger ">Nu mai urmari utilizatorul</button>
+        </form>
+    {% else %}
+    
+        <form action="{% url 'follow' username %}" method="POST" class="follow-button">
+            {% csrf_token %}
+            <button style="background-color: black; color: white; border-radius: 10px; " type="submit" class="btn btn-primary ">Urmareste utilizatorul</button>
+        </form>
+    {% endif %}
+  </br>
+  <a href="{% url 'user_posts' username=username %}"><button style="background-color: black; 
+    color: white; border-radius: 10px; font-style: italic;
+    font-size:20px;">Vizualizati postarile
+    </button>
+    </a>
+  
+  <a href="{% url 'my-follows' username %}">
+      <button style="background-color: black; color: white; border-radius: 10px; font-style: italic;
+      font-size:20px;">Urmariri si urmaritori</button>
+    </a>
+  <a href="{% url 'progress_list' username=username%}">
+    <button style="background-color: black; color: white; border-radius: 10px; font-style: italic;
+    font-size:20px;">Progresul sau</button>
+     </a>
+      </div>
+{% endif %}
+    </div>
+{% endblock %}

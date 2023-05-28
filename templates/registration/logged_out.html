@@ -1,0 +1,22 @@
+<head>
+    <style>
+
+    div
+    {
+        padding: 170px 0;
+        text-align: center;
+        margin: auto;
+        width: 50%;
+        border: 3px solid green;
+
+       }
+    </style>
+</head>
+<body>
+{% block content %}
+    <div>
+  <p>Logged out!</p>
+  <a href="{% url 'login'%}">Click here to login again.</a>
+    </div>
+{% endblock %}
+</body>

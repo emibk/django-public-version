@@ -1,0 +1,10 @@
+# Ignore config.py file
+config.py
+
+# Ignore virtual environment directories
+venv/
+env/
+
+# Ignore other sensitive files or directories
+sensitive_file.txt
+sensitive_directory/

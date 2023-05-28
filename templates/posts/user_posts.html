@@ -1,0 +1,194 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+
+<style>
+    
+    .posts-wrapper {
+        margin: 0 auto;
+        text-align: center;
+      }  
+    .form-control {
+        width: 100%;
+    }
+    .post-form textarea {
+        resize: none;
+        height: 25px;
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    textarea {
+        min-height: 50px;
+        
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        font-size: 16px;
+        padding: 10px 0;
+        box-sizing: border-box;
+        height: 30px;
+    }
+
+    textarea:focus {
+        
+        outline: none;
+    }
+    
+    .post, form, .show_comments {
+        background-color: #ccc;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 30px;
+        margin-left: 40px;
+    }
+    
+    .text-field {
+        display: inline-block;
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        font-size: 16px;
+        padding: 10px 0;
+        box-sizing: border-box;
+        height: 30px;
+    }
+
+    .text-field:focus {
+        outline: none;
+    } 
+
+      
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+
+<div class="main showcase posts-wrapper">
+
+    
+    
+    <h1>Postarile lui {{ user.username }}</h1>
+    
+    {% if request.user.is_authenticated and request.user.username == username %}
+   
+    <a href="/profile/{{request.user.get_username}}/posts/new_post/"><button style="background-color: black; color: white; border-radius: 10px;"><strong>Adauga o postare.<strong></button></a>
+
+    
+    {%endif%}
+    </br>
+    </br>
+    {% for post in posts %}
+    <div class="post" id="post-{{ post.id }}">
+        <h2>{{ post.title }}</h2>
+
+        {% if post.picture %}
+        <img src="{{ post.picture.url }}" alt="Post Image" style="max-width: 400px; max-height: 400px">
+        {% endif %}
+
+        <p>{{ post.text|safe|linebreaksbr }}</p>
+        
+        
+        <form method="POST" action="{% url 'reaction_post' username post.id %}">
+            <div class="reaction-container">
+            {% csrf_token %}
+            {% if post.reactions.exists %}
+           
+            <h3 class="reaction-count">Numarul de reactii: {{post.reactions.count}}</h3>
+            {%endif%}
+            <button type="submit" class="btn btn-secondary reaction-button" 
+            style="background-color: black; color: white; border-radius: 10px; width: 190px; padding: 8px; 
+            height:30px">
+                {% if post.id in reacted_to_posts %}
+                <i class="fas fa-thumbs-down"></i> <i>Stergeti reactia</i>
+                {% else %}
+                <i class="fas fa-thumbs-up"></i> <i>Adaugati o reactie</i>
+                {% endif %}
+            </button>
+        </div>
+        </form>
+          
+        {% if post.comments.exists %}
+        <h3>Comentarii:</h3>
+        {% for comment in post.comments.all|slice:":5" %}
+        <div id="comment-{{ comment.id }}">
+            <p>{{ comment.user.username }} a spus:
+            {{ comment.text }}</p>
+        </div>
+        {% endfor %}
+        {% if post.comments.count > 5 %}
+        <div id="hidden-comments" style="display: none;">
+            {% for comment in post.comments.all|slice:"5:" %}
+            <div id="comment-{{ comment.id }}">
+                <p>{{ comment.user.username }} a spus:
+                {{ comment.text }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="show_comments"><button id="show-more-comments" class="btn btn-secondary" 
+            style="background-color: black; color: white; 
+    border-radius: 10px; width: 190px; padding: 8px; "><i>Arata restul comentariilor</i></button></div>
+       
+        {% endif %}
+        {% else %}
+        <p>Nu există comentarii.</p>
+        {% endif %}
+    </br>
+</br>
+        <form method="POST" action="{% url 'create_comment' post.id username 'user_posts'%}" class="comment_form">
+            {% csrf_token %}
+            <label for="{{ form.text.id_for_label }}">{{ form.text.label_tag }}</label>
+            {{ form.text }}
+            <button type="submit" style="border-radius: 10px;">Posteaza un comentariu</button>
+        </form>
+        <p>Data postării: {{ post.time }}</p>
+
+        
+
+    </div>
+</br>
+    {% endfor %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" style="color: #45a049">&laquo; Inceput</a>
+                <a href="?page={{ page_obj.previous_page_number }}" style="color: #45a049">Anterior</a>
+            {% endif %}
+    
+            <span class="current">
+                Pagina {{ page_obj.number }} din {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" style="color: #45a049">Urmator</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" style="color: #45a049">Final &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+<script>
+    const textField = document.querySelector('#{{ form.text.id_for_label }}');
+  
+    textField.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = this.scrollHeight + 'px';
+    });
+  
+    
+    textField.setAttribute('rows', '1');
+  </script>
+<script>
+    document.getElementById("show-more-comments").addEventListener("click", function() {
+        var hiddenComments = document.getElementById("hidden-comments");
+        if (hiddenComments.style.display === "none") {
+            hiddenComments.style.display = "block";
+            this.innerHTML = "Arata doar primele 5 comentarii";
+        } else {
+            hiddenComments.style.display = "none";
+            this.innerHTML = "Arata restul comentariilor";
+        }
+    });
+</script>
+{% endblock %}

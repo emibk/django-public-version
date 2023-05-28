@@ -1,0 +1,75 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<style>
+  .follows-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .follows-table td,
+  .follows-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .follows-table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #4CAF50;
+    color: white;
+  }
+
+  a {
+    text-decoration: none;
+  }
+  
+
+</style>
+
+
+<div class="main showcase">
+  <h1>Urmariri si Urmaritori</h1>
+
+  {%if user.is_authenticated %}
+  {% if user.get_username == username%}
+  <form action="{% url 'following-search' %}" method="GET">
+      <input type="text" name="query" placeholder="Cautati utilizatori...">
+      <button type="submit">Search</button>
+  </form>
+  {%endif%}
+  {%endif%}
+</br>
+   <table class="follows-table">
+    <thead>
+      <tr>
+        <th>Urmariri</th>
+        <th>Urmaritori</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <ul>
+            {% for following in followings %}
+            <li><a href="{% url 'profile_view' following.following.username|slugify %}">{{ following.following.username }}</a></li>
+
+            {% empty %}
+              <li>Nu exista urmariri</li>
+            {% endfor %}
+          </ul>
+        </td>
+        <td>
+          <ul>
+            {% for follower in followers %}
+              <li><a href="{% url 'profile_view'  follower.follower.username|slugify %}">{{ follower.follower.username }}</li>
+            {% empty %}
+              <li>Nu exista urmaritori</li>
+            {% endfor %}
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

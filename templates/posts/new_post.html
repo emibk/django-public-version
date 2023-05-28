@@ -1,0 +1,94 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<style>
+    .showcase {
+        margin: 0 auto;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 30px;
+        margin-left: 40px;
+      }  
+      input[type="file"] {
+        display: none;
+    }
+    .custom-file-upload {
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+    }
+    .text-field {
+        display: inline-block;
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        font-size: 16px;
+        padding: 10px 0;
+        box-sizing: border-box;
+        height: 30px;
+    }
+
+    .text-field:focus {
+        outline: none;
+    }
+</style>
+<div class="main showcase">
+  <h1>Creeaza o noua postare</h1>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="{{ form.title.id_for_label }}">Titlul postarii:</label>
+      {{ form.title }}
+    </div>
+
+  </br>
+    <div class="form-group">
+      <label for="{{ form.picture.id_for_label }}">Adaugati o imagine:</label>
+      <label for="{{ form.picture.id_for_label }}" class="custom-file-upload">
+        <i class="fa fa-cloud-upload"></i> Selecteaza Imaginea
+      </label>
+      {{ form.picture }}
+    </div>
+  </br>
+    <div class="form-group">
+      <label for="{{ form.text.id_for_label }}">Textul postarii:</label>
+      <textarea id="{{ form.text.id_for_label }}" class="text-field" name="{{ form.text.name }}" rows="1">{{ form.text.value|default:'' }}</textarea>
+    </div>
+  </br>
+    <div class="form-group">
+      <label for="{{ form.post_type.id_for_label }}">Tipul postarii:</label>
+      
+      {{ form.post_type }}
+    </div>
+    <button type="submit">Adauga o postare</button>
+  </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $('#{{ form.post_type.id_for_label }}').on('change', function() {
+      if ($(this).find('option:selected').text() === 'Schimbare in greutate') {
+        var weight = 0;
+        
+        
+        while (weight <= 30 || isNaN(weight) ) {
+          weight = parseInt(window.prompt("Introduceti greutatea:", ""));
+          
+          if (weight > 30) {
+            $('#{{ form.text.id_for_label }}').val("{{username}} si-a setat greutatea la " + weight + " kg");
+            $('#{{ form.text.id_for_label }}').prop('readonly', true); // set the readonly property to true
+
+            
+          } else {
+            
+            window.alert('Alegeti o greutate reala.');
+          }
+        }
+      }
+    });
+  });
+
+</script>
+{% endblock %}

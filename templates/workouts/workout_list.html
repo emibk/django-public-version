@@ -1,0 +1,44 @@
+{% extends "base_generic.html" %}
+{% block content %}
+
+<div class="main">
+
+  <h1>Antrenamente</h1>
+
+<form action="{% url 'workouts' %}" method="get">
+
+    <label for="goal">Goal:</label>
+    <select name="goal" id="goal">
+        <option value="">All</option>
+        {% for option in goal_options %}
+            <option value="{{ option.id }}" {% if goal == option.id %}selected{% endif %}>{{ option.goal_name }}</option>
+        {% endfor %}
+    </select>
+    </br>
+    <label for="disability">Disability:</label>
+    <select name="disability" id="disability">
+        <option value="">All</option>
+        {% for option in disability_options %}
+            <option value="{{ option.id }}" {% if disability == option.id %}selected{% endif %}>{{ option.name }}</option>
+        {% endfor %}
+    </select>
+    <br>
+
+    <button type="submit">Filter</button>
+</form>
+  {% if workout_list %}
+  <ul class="workouts-list">
+    {% for workout in workout_list %}
+      <li>
+      <a href="{% url 'workout_details' workout.id %}">{{ workout.name }} ({{workout.disability}})</a>
+
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>Nu a fost gasit niciun antrenament. Va rugam sa resetati filtrele.</p>
+  {% endif %}
+
+
+</div>
+{% endblock %}

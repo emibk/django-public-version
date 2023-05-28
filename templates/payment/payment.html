@@ -1,0 +1,80 @@
+<!-- payment/payment.html -->
+<body>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<form id="payment-form" method="post" action="{% url 'payment' %}">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="card-number">Card Number</label>
+    <div id="card-element"></div>
+  </div>
+  <button type="submit">Pay</button>
+</form>
+<div id="card-errors" role="alert"></div>
+
+{% if error_message %}
+  <p class="error">{{ error_message }}</p>
+{% endif %}
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+  var stripe = Stripe('pk_test_51LqL8pCHbRnv2yjvZ5VNfExb1YImaac0E28tfLeAx9xj8BhkH4Yfh74IingzjmWfxAQyZt6Lr3LWOJqWBcxAMh8B00HrnJGfzC');
+  var elements = stripe.elements();
+  console.log("script");
+
+  var cardElement = elements.create('card', {
+    style: {
+      base: {
+        iconColor: '#666EE8',
+        color: '#31325F',
+        lineHeight: '40px',
+        fontWeight: 300,
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSize: '15px',
+        '::placeholder': {
+          color: '#CFD7E0',
+        },
+      },
+    },
+    hidePostalCode: true, // Add this line to hide the postcode field
+  });
+
+  cardElement.mount('#card-element');
+  console.log(cardElement);  // Check if the cardElement is correctly created
+
+  var form = document.getElementById('payment-form');
+  console.log(form);  // Check if the form is correctly selected
+
+  form.addEventListener('submit', function(event) {
+    // Change 'submit' to 'click'
+    event.preventDefault();
+    console.log('Form clicked');  // Check if the event listener is triggered
+    stripe.createPaymentMethod({
+        type: 'card',
+        card: cardElement,
+    }).then(function(result) {
+        if (result.error) {
+            var errorElement = document.getElementById('card-errors');
+            errorElement.textContent = result.error.message;
+        } else {
+            stripeTokenHandler(result.paymentMethod);
+        }
+    });
+});
+
+function stripeTokenHandler(paymentMethod) {
+    var form = document.getElementById('payment-form');
+    var hiddenInput = document.createElement('input');
+    hiddenInput.setAttribute('type', 'hidden');
+    hiddenInput.setAttribute('name', 'stripeToken');
+    hiddenInput.setAttribute('value', paymentMethod.id);
+    form.appendChild(hiddenInput);
+    console.log("stripeToken");
+    form.submit();
+}
+
+</script>
+
+
+</body>

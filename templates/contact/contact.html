@@ -1,0 +1,40 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+<style>
+    textarea {
+        min-height: 50px;
+        
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        font-size: 16px;
+        padding: 10px 0;
+        box-sizing: border-box;
+        height: 30px;
+    }
+    textarea:focus {
+        
+        outline: none;
+    }
+</style>
+<div class="main showcase">
+    <h2>Contacteaza-ne</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        
+    
+        <p> Email: {{ form.email }}</p>
+        <p> Mesaj: {{ form.text }}</p>
+        <button type="submit">Trimite mesajul</button>
+    </form>
+</div>
+<script>
+    textField.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = this.scrollHeight + 'px';
+      });
+      
+</script>
+
+{%endblock%}

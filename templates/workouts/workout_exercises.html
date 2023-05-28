@@ -1,0 +1,37 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<div class="main showcase" >
+    <img src="{{ workout.image.url }}" alt="image" class="bg-image" />
+   <div class="bg-img-text">
+  <h1>{{ workout.name }}</h1>
+  <h2>Ziua {{ workout_day.day }}</h2>
+  {% for exercise in workout_exercises.all %}
+       <h3>{{ exercise.exercise.name }}</h3>
+      <h4>{{ exercise.exercise.muscle_group }}</h4>
+      <h4>{{ exercise.exercise.description }}</h4>
+      <h4>{{ exercise.specification }}: </h4>
+      {%  if exercise.specification == 'Seturi si Repetitii' %}
+          <h3>Exercitiul consta in {{ exercise.sets }} a cate {{ exercise.repetitions }}.</h3>
+      {% else %}
+          <h3>Durata exercitiului este de {{ exercise.time }}.</h3>
+      {% endif %}
+      </br>
+
+   {% empty %}
+    <p>No exercises found.</p>
+{% endfor %}
+<p>workout_day_id: {{ workout_day.id }}</p>
+
+<form style="background-color: transparent;" method="POST" action="{% url 'add_progress' workout_day_id=workout_day.id workout_id=workout.id%}">
+    {% csrf_token %}
+    <button style="background-color: black; color: white; border-radius: 10px; " type="submit" class="btn btn-primary ">Zi finalizata</button>
+  </form>
+  
+
+
+
+
+
+</div>
+</div>
+{% endblock %}

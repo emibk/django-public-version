@@ -1,0 +1,50 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<style>
+  .progress_list {
+    margin: 0 auto;
+    text-align: center;
+  }
+  li {
+    font-size: 22px;
+  }
+  form {
+    margin: 0 auto;
+    display: block;
+  }
+</style>
+<div class="main showcase">
+  <h1>Progresul realizat de {{username}}</h1>
+  
+  {% if progress_list %}
+  <form style=" width: 500px;" method="get" name="filter">
+    <label for="filter">Sorteaza dupa:</label>
+    <select id="filter" name="filter">
+      <option value="date_desc">Data (cel mai nou primul)</option>
+      <option value="date_asc">Date (cel mai vechi primul)</option>
+    </select>
+    <button style="background-color: black; color: white; border-radius: 10px; padding: 4px 8px; font-size: 20px; line-height: 1; width: 500px;" type="submit" class="btn btn-primary ">Filter</button>
+  </form>
+    <ul class="progress_list">
+      {% for progress in progress_list %}
+        <li>
+        <span style="display: inline-block;">Ziua {{ progress.workout_day.day }} - 
+          <a href="{% url 'workout_details' workout_id=progress.workout_day.workout.id %}" style="color: #333; text-decoration: none;">{{ progress.get_workout_name }}</span></a>
+        <form style=" display: inline-block;background-color: transparent;"  action="{% url 'workout_exercises' workout_day_id=progress.workout_day.id workout_id=progress.workout_day.workout.id %}" method="get">
+          <button  style="background-color: black; color: white; border-radius: 10px; padding: 4px 8px; font-size: 12px; line-height: 1; width: 160px;" type="submit" class="btn btn-primary ">Vizualizati antrenamentul</button>
+        </form>
+      
+      </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+  {% if user.is_authenticated and user.get_username == username %}
+    <p>Inca nu exista progres. Reveniti la pagina de antrenamente pentru a selecta antrenamentul potrivit.</p>
+  {% else %}
+    <p>Inca nu exista progres.</p>
+  {% endif %}
+    
+  {% endif %}
+</div>
+{% endblock %}
