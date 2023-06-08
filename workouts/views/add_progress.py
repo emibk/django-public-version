@@ -3,9 +3,11 @@ from django.contrib.auth.decorators import login_required
 from workouts.models import Progress
 from workouts.forms import ProgressForm
 from workouts.models import WorkoutDay
-
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.models import Group
 
 @login_required
+@user_passes_test(lambda user: user.groups.filter(name='Utilizator').exists())
 def add_progress(request, workout_day_id, workout_id):
     workout_day = get_object_or_404(WorkoutDay, pk=workout_day_id)
     print(workout_day)

@@ -3,8 +3,11 @@ from workouts.forms import UserInfoForm
 from workouts.models import UserInfo
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.models import Group
 
 @login_required
+@user_passes_test(lambda user: user.groups.filter(name='Utilizator').exists())
 def change_profile(request, username):
     user = get_object_or_404(User, username=username)
     user_info = UserInfo.objects.get(user=user)

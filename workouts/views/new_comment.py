@@ -4,8 +4,11 @@ from django.contrib import messages
 from workouts.models import Post, Comment
 from workouts.forms import CommentForm
 from django.urls import reverse
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.models import Group
 
 @login_required
+@user_passes_test(lambda user: user.groups.filter(name='Utilizator').exists())
 def create_comment(request, post_id, username, view):
     post = get_object_or_404(Post, pk=post_id)
 

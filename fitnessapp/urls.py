@@ -26,8 +26,18 @@ urlpatterns = [
     path('', views.workout_list, name="workouts"),
     path('workouts/<int:workout_id>/', views.workout_details, name='workout_details'),
     path('workouts/<int:workout_day_id>/<int:workout_id>/', views.workout_exercises, name='workout_exercises'),
-   
+    path('administrator/goals/', views.goal_list, name='admin_goals'),
+    path('administrator/disabilities/', views.disability_list, name='admin_disabilities'),
+    path('administrator/exercises/', views.exercise_list, name='admin_exercises'),
+    path('administrator/workouts/', views.workoutadmin_list, name='admin_workouts'),
+    path('administrator/workouts/<int:workout_id>/', views.workoutplan_list, name='workout-days'),
+     path('calories', views.calories_intake, name='calories_intake'),
+
+
 ]
+
+   
+
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += [
@@ -51,4 +61,5 @@ urlpatterns += [
     path('payment/', views.payment_view, name='payment'),
     path('payment_successful/', views.payment_successful_view, name='payment_sucessful'),
     path('contact/', views.contact_form, name='contact'),
+    
 ]

@@ -1,22 +1,61 @@
+{% load static %}
 <head>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <style>
+        body {
+            background-image: url('/static/fitness.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            overflow: hidden;
+        }
+        .logout {
+            padding: 170px 0;
+            text-align: center;
+            margin: auto;
+            width: 50%;
+            border: 3px solid green;
+            animation: fade-in 1s ease-in-out;
+            background-color: white;
+        }
 
-    div
-    {
-        padding: 170px 0;
-        text-align: center;
-        margin: auto;
-        width: 50%;
-        border: 3px solid green;
+        @keyframes fade-in {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
 
-       }
+        @keyframes moveLeftToRight {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .moving-icon {
+            width: 100%;
+            position: absolute;
+            left: 0;
+            animation: moveLeftToRight 10s linear infinite;
+            font-size: 60px;
+        }
     </style>
 </head>
 <body>
-{% block content %}
-    <div>
-  <p>Logged out!</p>
-  <a href="{% url 'login'%}">Click here to login again.</a>
+    {% block content %}
+    <div class="logout">
+        <h1>Ai fost delogat!</h1>
+        <a href="{% url 'login'%}">Acceseaza linkul pentru a te loga din nou.</a>
     </div>
-{% endblock %}
+    </br></br>
+    <div class="moving-icon">
+        <i class="fas fa-biking"></i>
+    </div>
+    {% endblock %}
 </body>

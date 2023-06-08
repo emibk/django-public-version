@@ -1,21 +1,24 @@
-<!-- payment/payment.html -->
-<body>
+{% extends 'base_generic.html' %}
+{% block content %}
+<div class="main">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<form id="payment-form" method="post" action="{% url 'payment' %}">
-  {% csrf_token %}
-  <div class="form-group">
-    <label for="card-number">Card Number</label>
-    <div id="card-element"></div>
-  </div>
-  <button type="submit">Pay</button>
-</form>
-<div id="card-errors" role="alert"></div>
+  <h2>Pentru a accesa pagina unde iti poti gestiona caloriile zilnice, este nevoie sa platesti 30 de lei.</h2>
+  <form id="payment-form" method="post" action="{% url 'payment' %}">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="card-number">Numar card</label>
+      <div id="card-element"></div>
+    </div>
+    <button type="submit">Plateste</button>
+  </form>
+  <div id="card-errors" role="alert"></div>
 
 {% if error_message %}
   <p class="error">{{ error_message }}</p>
 {% endif %}
+</div>
 <script src="https://js.stripe.com/v3/"></script>
 
 <script>
@@ -37,19 +40,18 @@
         },
       },
     },
-    hidePostalCode: true, // Add this line to hide the postcode field
+    hidePostalCode: true, 
   });
 
   cardElement.mount('#card-element');
-  console.log(cardElement);  // Check if the cardElement is correctly created
+  console.log(cardElement); 
 
   var form = document.getElementById('payment-form');
-  console.log(form);  // Check if the form is correctly selected
+  console.log(form);  
 
   form.addEventListener('submit', function(event) {
-    // Change 'submit' to 'click'
     event.preventDefault();
-    console.log('Form clicked');  // Check if the event listener is triggered
+    console.log('Form clicked'); 
     stripe.createPaymentMethod({
         type: 'card',
         card: cardElement,
@@ -76,5 +78,4 @@ function stripeTokenHandler(paymentMethod) {
 
 </script>
 
-
-</body>
+{% endblock %}

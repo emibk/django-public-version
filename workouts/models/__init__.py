@@ -16,6 +16,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from .user_payment import Payment
+from .calories import FoodCalories
 
 @receiver(post_save, sender=User)
 def create_user_info(sender, instance, created, **kwargs):

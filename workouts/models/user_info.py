@@ -10,6 +10,7 @@ def image_path(instance, filename):
 class UserInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_image = models.ImageField(upload_to=image_path, blank=True, null=True)
+    
     date_of_birth = models.DateField(null=True, blank=True)
     current_weight = models.FloatField(null=True, blank=True)
     id = models.AutoField(primary_key=True)

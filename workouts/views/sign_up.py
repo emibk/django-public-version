@@ -2,6 +2,10 @@ from django.contrib.auth import authenticate, login
 from django.urls import reverse
 from django.shortcuts import redirect, render
 from workouts.forms import RegisterForm
+from django.contrib.auth.models import Group
+
+
+
 def sign_up(request):
     if request.method == 'GET':
         form = RegisterForm()
@@ -11,6 +15,8 @@ def sign_up(request):
             user = form.save()
             email = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
+            group = Group.objects.get(name='Utilizator')
+            user.groups.add(group)
             if user is not None:
                 login(request, user)
                 return redirect(reverse('workouts'))

@@ -2,8 +2,11 @@ from django.shortcuts import render, get_object_or_404
 from workouts.models import UserInfo, Follow
 from django.contrib.auth.models import User
 from PIL import Image
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
+@user_passes_test(lambda user: user.groups.filter(name='Utilizator').exists())
 def profile_view(request, username):
     print(f'username = {username}')
     user = get_object_or_404(User, username=username)

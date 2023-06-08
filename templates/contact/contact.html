@@ -1,7 +1,7 @@
 {% extends 'base_generic.html' %}
 {% block content %}
 <style>
-    textarea {
+    textarea, #id_email {
         min-height: 50px;
         
         width: 100%;
@@ -22,18 +22,22 @@
     <form method="post">
         {% csrf_token %}
         
-        
-    
-        <p> Email: {{ form.email }}</p>
-        <p> Mesaj: {{ form.text }}</p>
+        <label for="{{ form.form.email.id_for_label }}">Email:</label>
+        {{ form.email }}
+        <label for="{{ form.form.text.id_for_label }}">Mesaj:</label>
+        {{ form.text }}
         <button type="submit">Trimite mesajul</button>
     </form>
 </div>
 <script>
+    
+    const textField = document.querySelector('#{{ form.text.id_for_label }}');
     textField.addEventListener('input', function() {
         this.style.height = 'auto';
         this.style.height = this.scrollHeight + 'px';
       });
+    textField.setAttribute('rows', '1');
+  
       
 </script>
 

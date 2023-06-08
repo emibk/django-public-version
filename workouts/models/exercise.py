@@ -3,9 +3,6 @@ from django.db import models
 from django.urls import reverse
 
 
-def video_path(self):
-    return "exercises" + self.name
-
 
 class Exercise(models.Model):
     name = models.CharField(max_length=20, help_text='Dati numele exercitiului')

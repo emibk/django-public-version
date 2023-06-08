@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Workout, WorkoutDay, WorkoutDayExercise, Goal, Disability, Exercise, UserInfo, Progress, Friendship
-from .models import Post, Reaction, Comment, Follow, Payment
+from .models import Post, Reaction, Comment, Follow, Payment, FoodCalories
 
 admin.site.register(Workout)
 admin.site.register(WorkoutDay)
@@ -16,3 +16,4 @@ admin.site.register(Progress)
 admin.site.register(Friendship)
 admin.site.register(Follow)
 admin.site.register(Payment)
+admin.site.register(FoodCalories)

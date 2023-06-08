@@ -23,6 +23,6 @@ def workout_list(request):
         'goal_options': goal_options,
         'disability_options': disability_options,
     }
-    print(context)
+    
     return render(request, 'workouts/workout_list.html', context)
 

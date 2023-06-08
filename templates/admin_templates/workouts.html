@@ -1,0 +1,133 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+<style>
+  #hideAllButton{
+    background-color: black;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px; 
+    padding: 2px 8px;
+  }
+  input[type="file"] {
+    display: none;
+  }
+  .custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+  textarea {
+    min-height: 50px;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+    padding: 10px 0;
+    box-sizing: border-box;
+    height: 30px;
+  }
+  textarea:focus {
+    
+    outline: none;
+  }
+  #id_length{
+    min-height: 50px;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+    padding: 10px 0;
+    box-sizing: border-box;
+    height: 30px;
+  }
+
+</style>
+<div class="main">
+  
+  <button id="hideAllButton">Ascunde toate antrenamentele</button>
+  <h2>Lista de antrenamente</h2>
+  <div id="workoutsList">
+    <h3>Aplicati filtre</h3>
+    <form action="" method="get">
+
+      <label for="name">Nume:</label>
+      <input type="text" name="name" id="name" value="{{ request.GET.name|default:'' }}">
+      
+  
+      <button type="submit">Filtreaza</button>
+    </form>
+    <div style="height: 10px; background-color: white;"></div>
+    {% for workout in workouts %}
+    <div style="background-color: #eaeaea;">
+      <div style="display: flex; align-items: center;">
+        <span>Nume antrenament: <a href="{% url 'workout-days' workout.id %}">{{ workout.name }}</a></span>
+        <form method="POST" action="" style="background-color: transparent; margin-left: 5px;">
+          {% csrf_token %}
+          {{ delete_form.as_p }}
+          <input type="hidden" name="workout_id" value="{{ workout.id }}">
+          <button type="submit" name="delete-goal" style="font-size: 15px; padding: 2px 8px;">Sterge</button>
+        </form>
+      </div>
+      <div style="height: 10px; background-color: white;"></div>
+    </div>
+    {% endfor %}
+  </div>
+
+<h2>Adaugati un nou antrenament</h2>
+<form method="POST" action="" enctype="multipart/form-data">
+  {% csrf_token %}
+  <label for="{{ form.name.id_for_label }}">Nume:</label>
+  {{ form.name }}
+  <label for="{{ form.disability.id_for_label }}">Dizabilitate:</label>
+  {{ form.disability }}
+  <label for="{{ form.goal.id_for_label }}">Obiectiv:</label>
+  {{ form.goal }}
+  <label for="{{ form.equipment.id_for_label }}">Echipament:</label>
+  {{ form.equipment }}
+  <label for="{{ form.level.id_for_label }}">Dificultate:</label>
+  {{ form.level }}
+ 
+  <label for="{{ form.description.id_for_label }}">Descriere:</label>
+  {{ form.description }}</br>
+  <label for="{{ form.length.id_for_label }}">Lungime(zile):</label>
+  {{ form.length }}</br>
+  <label for="{{ form.image.id_for_label }}">Imagine de profil:</label>
+  <label for="{{ form.image.id_for_label }}" class="custom-file-upload">
+    <i class="fa fa-cloud-upload"></i> Selecteaza Imaginea
+  </label>
+  {{ form.image }}
+
+  
+  <button type="submit"> Adauga antrenament </button>
+</form>
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const hideAllButton = document.getElementById('hideAllButton');
+    const workoutsList= document.getElementById('workoutsList');
+    const descriptionField = document.querySelector('#{{ form.description.id_for_label }}');
+    descriptionField.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = this.scrollHeight + 'px';
+    });
+    descriptionField.setAttribute('rows', '1');
+
+    hideAllButton.addEventListener('click', function() {
+      if (workoutsList.style.display === 'none') {
+        workoutsList.style.display = 'block';
+        hideAllButton.innerText = 'Ascunde toate antrenamentele';
+      } else {
+        workoutsList.style.display = 'none';
+        hideAllButton.innerText = 'Afiseaza toate antrenamentele';
+      }
+    });
+  });
+</script>
+{% endblock %}

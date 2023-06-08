@@ -6,8 +6,10 @@ from workouts.models import Follow
 
 
 from django.urls import reverse
-
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.models import Group
 @login_required
+@user_passes_test(lambda user: user.groups.filter(name='Utilizator').exists())
 def following_search(request):
     query = request.GET.get('query')
     users = User.objects.filter(username__icontains=query).exclude(id=request.user.id)

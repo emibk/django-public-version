@@ -1,0 +1,107 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+<style>
+  textarea {
+    min-height: 50px;
+        
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+    padding: 10px 0;
+    box-sizing: border-box;
+    height: 30px;
+  }
+  textarea:focus {
+      
+      outline: none;
+  }
+  #hideAllButton{
+    background-color: black;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px; 
+    padding: 2px 8px;
+  }
+</style>
+<div class="main showcase">
+  <h2>Lista de exercitii</h2>
+  <button id="hideAllButton">Ascunde toate exercitiile</button>
+  <div id="exercisesList">
+    <h3>Aplicati filtre</h3>
+    <form action="" method="get">
+
+      <label for="name">Nume:</label>
+      <input type="text" name="name" id="name" value="{{ request.GET.name|default:'' }}">
+      </br>
+      <label for="muscle_group">Grup de muschi:</label>
+      <input type="text" name="muscle_group" id="muscle_group" value="{{ request.GET.muscle_group|default:'' }}">
+      <br>
+  
+      <button type="submit">Filtreaza</button>
+    </form>
+  <div style="height: 10px; background-color: white;"></div>
+    {% for exercise in exercises%}
+    <div style="background-color: #eaeaea;">
+      <div style="display: flex; align-items: center;">
+        <span style="display: flex; align-items: center;">Nume: {{ exercise.name }}</span>
+        <form method="POST" action="" style="background-color: transparent; margin-left: 5px;">
+          {% csrf_token %}
+          {{ delete_form.as_p }}
+          <input type="hidden" name="exercise_id" value="{{ exercise.id }}">
+          <button type="submit" name="delete-goal" style="font-size: 15px; padding: 2px 8px;">Sterge</button>
+        </form>
+      </div>
+      <div>
+        <span>Descriere: {{ exercise.description }}</span></br>
+        <span>Group de muschi: {{ exercise.muscle_group }}</span>
+      </div>
+    </div>
+    <div style="height: 10px; background-color: white;"></div>
+
+    {% endfor %}
+  </div>
+  
+  <h2>Adaugati un nou exercitiu</h2>
+  <form method="POST" action="">
+    {% csrf_token %}
+    <label for="{{ form.name.id_for_label }}">Nume:</label>
+    {{ form.name }}
+    <label for="{{ form.description.id_for_label }}">Descriere:</label>
+    {{ form.description }}
+    <label for="{{ form.muscle_group.id_for_label }}">Grup de muschi:</label>
+    {{ form.muscle_group }}
+    <button type="submit">Adauga</button>
+  </form>
+</div>
+
+  
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const hideAllButton = document.getElementById('hideAllButton');
+    const exercisesList = document.getElementById('exercisesList');
+    const descriptionField = document.querySelector('#{{ form.description.id_for_label }}');
+    descriptionField.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = this.scrollHeight + 'px';
+    });
+    descriptionField.setAttribute('rows', '1');
+
+    hideAllButton.addEventListener('click', function() {
+      if (exercisesList.style.display === 'none') {
+        exercisesList.style.display = 'block';
+        hideAllButton.innerText = 'Ascunde toate exercitiile';
+      } else {
+        exercisesList.style.display = 'none';
+        hideAllButton.innerText = 'Afiseaza toate exercitiile';
+      }
+    });
+  
+
+  });
+</script>
+{% endblock %}

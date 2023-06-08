@@ -1,0 +1,63 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+<style>
+  #hideAllButton{
+    background-color: black;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px; 
+    padding: 2px 8px;
+  }
+</style>
+<div class="main showcase">
+  <button id="hideAllButton">Ascunde toate obiectivele</button>
+  <h2 id="goalsTitle">Lista de obiective</h2>
+  <div id="goalsList"  style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 20px;">
+    
+     {% for goal in goals %}
+     <div style="display: flex; align-items: center;" >
+       <span style="display: flex; align-items: center;">{{ goal.goal_name }}</span>
+       <form method="POST" action="" style="background-color: transparent; margin-left: 5px;">
+         {% csrf_token %}
+         {{ delete_form.as_p }}
+         <input type="hidden" name="goal_id" value="{{ goal.id }}">
+         <button type="submit" name="delete-goal" style="font-size: 15px; padding: 2px 8px;">Sterge</button>
+       </form>
+     </div>
+     {% endfor %}
+  </div>
+  <h2>Adaugati obiectiv</h2>
+  <form method="POST" action="">
+    {% csrf_token %}
+    <label for="{{ form.goal_name.id_for_label }}">Nume:</label>
+    {{ form.goal_name }}
+    <button type="submit">Adauga obiectiv</button>
+  </form>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const hideAllButton = document.getElementById('hideAllButton');
+    const goalsList= document.getElementById('goalsList');
+    const goalsTitle = document.getElementById('goalsTitle');
+    hideAllButton.addEventListener('click', function() {
+      if (goalsList.style.display === 'none') {
+        goalsList.style.display = 'grid';
+        goalsList.style.gridTemplateColumns = 'repeat(2, 1fr)';
+        goalsList.style.gridGap = '20px';
+        goalsTitle.style.display = 'block';
+        hideAllButton.innerText = 'Ascunde toate obiectivele';
+      } else {
+        goalsList.style.display = 'none';
+        goalsTitle.style.display = 'none';
+        hideAllButton.innerText = 'Afiseaza toate obiectivele';
+      }
+    });
+  
+
+  });
+</script>
+{% endblock %}

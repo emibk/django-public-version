@@ -1,9 +1,15 @@
 <head>
     <style>
-        form {
+      body {
+        background-image: url('/static/fitness.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        overflow: hidden;
+       }
+      form {
             border: 3px solid #f1f1f1;
         }
-       input[type=text], input[type=password] {
+      input[type=text], input[type=password] {
            width: 100%;
            padding: 12px 20px;
            margin: 8px 0;
@@ -33,19 +39,16 @@
 </head>
 
 <body>
-
-{% block content %}
-
+</br></br>
   {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
+    <p>Username-ul si parola nu se potrivesc. Incearca din nou.</p>
   {% endif %}
 
   {% if next %}
     {% if user.is_authenticated %}
-      <p>Your account doesn't have access to this page. To proceed,
-      please login with an account that has access.</p>
+      <p>Contul tau nu are acces la aceasta pagina. Logheaza-te cu un cont care are acces.</p>
     {% else %}
-      <p>Please login to see this page.</p>
+      <p>Te rog sa te loghezi pentru a vedea aceasta pagina.</p>
     {% endif %}
   {% endif %}
 <div class = "form">
@@ -60,9 +63,9 @@
     <input type="hidden" name="next" value="{{ next }}">
   </form>
 
-  {# Assumes you setup the password_reset view in your URLconf #}
-  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-  <p><a href="{% url 'register' %}"> No account? Register here!</a></p>
+  
+  <p><a href="{% url 'password_reset' %}">Ai pierdut parola?</a></p>
+  <p><a href="{% url 'register' %}"> Nu ai cont? Inregistreaza-te aici</a></p>
 </div>
-{% endblock %}
+
 </body>

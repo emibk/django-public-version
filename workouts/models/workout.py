@@ -18,7 +18,7 @@ def validate_length(value):
 
 
 def image_path(instance, filename):
-    #return "workouts/" + instance.name + "." + filename.partition(".")[1]
+    
     return "workouts/" + instance.name + "." + filename.partition(".")[2]
 
 class Workout(models.Model):

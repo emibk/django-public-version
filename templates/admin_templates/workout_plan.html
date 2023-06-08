@@ -1,0 +1,159 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+<style>
+  #id_repetitions, #id_time, #id_sets{
+    min-height: 50px;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+    padding: 10px 0;
+    box-sizing: border-box;
+    height: 30px;
+  }
+</style>
+<div class="main">
+  <h1><a href="{% url 'workout_details' workout_id=workout.id %}">{{ workout.name }}</a> - Plan</h1>
+  <ul>
+    <div style="background-color: #f2f2f2;">
+      {% for workout_day in workout_days %}
+        <li>
+          <button onclick="toggleDay({{ workout_day.day }})"
+          style="background-color: black;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 15px; 
+          padding: 2px 8px;
+          "
+          id="button-{{ workout_day.day }}"
+          >Ascunde</button>
+          <h2>Ziua {{ workout_day.day }}</h2>
+          <ul id="day-{{ workout_day.day }}">
+            {% for exercise in workout_day.workoutdayexercise_set.all %}
+              <div style="border: 1px solid #ccc; padding: 5px; margin-bottom: 10px;">
+                <div style="display: flex; align-items: center; ">
+                  <li style="display: flex; align-items: center;"><b>Exercitiu: {{ exercise.exercise.name }}</b></li>
+                  <form method="POST" action="" style="background-color: transparent; margin-left: 5px;">
+                    {% csrf_token %}
+                    {{ exercise_delete_form.as_p }}
+                    <input type="hidden" name="workoutexercise_id" value="{{ exercise.id }}">
+                    <button type="submit" name="delete-exercise" style="font-size: 15px; padding: 2px 8px;">Sterge</button>
+                  </form>
+                  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Specificatie: {{ exercise.specification }}</i></li>
+                  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Timp(secunde): {{ exercise.time }}</i></li>
+                  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Set: {{ exercise.sets }}</i></li>
+                  <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>Repetitii: {{ exercise.repetitions }}</i></li>
+                </div>
+              </div>
+            {% empty %}
+              <li>Niciun exercitiu adaugat inca.</li>
+            {% endfor %}
+          </ul>
+          <div style="height: 10px; background-color: white;"></div>
+          <h3> Adauga exercitii pentru ziua {{ workout_day.day }}</h3>
+          <form method="POST" action="{% url 'workout-days' workout.id %}">
+            {% csrf_token %}
+            <label for="{{ exercise_form.id_for_label }}">Exercitiu:</label>
+            {{ exercise_form.exercise }}
+            <label for="{{ exercise_form.id_for_label }}">Specificatie:</label>
+            {{ exercise_form.specification}}
+            
+            <label for="id_time" style ="display:none;">Timp(secunde):</label>
+            <input type="number" id="id_time" name="time" value="0" style ="display:none;">
+            
+            <label for="id_sets" style="display: block;">Seturi:</label>
+            <input type="number" id="id_sets" name="sets" value="0" style="display: block;">
+            <label for="id_repetitions" style="display: block;">Repetitii:</label>
+            <input type="number" id="id_repetitions" name="repetitions" value="0" style="display: block;">
+
+
+
+            <input type="hidden" name="workout_day_id" value="{{ workout_day.id }}">
+            <button type="submit" name="add-exercise">Adauga exercitiu</button>
+          </form>
+          <div style="height: 10px; background-color: white;"></div>
+        </li>
+      {% empty %}
+        <li>Nu exista zile.</li>
+      {% endfor %}
+    </div>
+  </ul>
+  
+  {% if workout_days.has_other_pages %}
+    <div class="pagination" style="text-align: center;">
+      {% if workout_days.has_previous %}
+        <a href="?page=1" style="color: #45a049">&laquo; Inceput</a>
+        <a href="?page={{ page_obj.previous_page_number }}" style="color: #45a049">Anterior</a>
+      {% endif %}
+      
+      {% for page in workout_days.paginator.page_range %}
+        {% if page == workout_days.number %}
+          <span class="current-page">{{ page }}</span>
+        {% else %}
+          <a style="color: #45a049" href="?page={{ page }}">{{ page }}</a>
+        {% endif %}
+      {% endfor %}
+      
+      {% if workout_days.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}" style="color: #45a049">Urmator</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}" style="color: #45a049">Final &raquo;</a>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  function toggleDay(day) {
+    const dayElement = document.getElementById(`day-${day}`);
+    const headingElement = dayElement.previousElementSibling;
+    const buttonElement = document.getElementById(`button-${day}`);
+    if (dayElement.style.display === 'none') {
+      dayElement.style.display = 'block';
+      headingElement.style.display = 'block';
+      buttonElement.textContent = 'Ascunde';
+    } else {
+      dayElement.style.display = 'none';
+      headingElement.style.display = 'none';
+      buttonElement.textContent = 'Afiseaza';
+    }
+
+
+  }
+   const specificationFields = document.querySelectorAll('select[name="specification"]');
+   const timeLabels = document.querySelectorAll('label[for="id_time"]');
+   const timeInputs = document.querySelectorAll('input[name="time"]');
+   const setsLabels = document.querySelectorAll('label[for="id_sets"]');
+   const setsInputs = document.querySelectorAll('input[name="sets"]');
+   const repetitionsLabels = document.querySelectorAll('label[for="id_repetitions"]');
+   const repetitionsInputs = document.querySelectorAll('input[name="repetitions"]');
+
+   specificationFields.forEach((specificationField, index) => {
+     specificationField.addEventListener('change', function() {
+       if (specificationField.value === 'Timp') {
+        
+         timeLabels[index].style.display = 'block';
+         timeInputs[index].style.display = 'block';
+         setsLabels[index].style.display = 'none';
+         setsInputs[index].style.display = 'none';
+         repetitionsLabels[index].style.display = 'none';
+         repetitionsInputs[index].style.display = 'none';
+       
+       } else {
+         timeLabels[index].style.display = 'none';
+         timeInputs[index].style.display = 'none';
+         setsLabels[index].style.display = 'block';
+         setsInputs[index].style.display = 'block';
+         repetitionsLabels[index].style.display = 'block';
+         repetitionsInputs[index].style.display = 'block';
+      }
+    });
+  });
+  
+
+
+</script>
+{% endblock %}

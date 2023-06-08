@@ -17,3 +17,9 @@ from .reaction_post import reaction_post
 from .payment import payment_view
 from .payment_sucessfull import payment_successful_view
 from .contact import contact_form
+from .calories import calories_intake
+from .admin_views.goals import goal_list
+from .admin_views.disabilities import disability_list
+from .admin_views.exercises import exercise_list
+from .admin_views.workouts import workoutadmin_list
+from .admin_views.workouts import workoutplan_list

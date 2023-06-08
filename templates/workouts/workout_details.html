@@ -6,7 +6,11 @@
   <h1>{{ workout.name }}</h1>
 
   <h3>{{ workout.disability.name }}</h3>
-  <h3>Scopul antrenamentului: {{ workout.goal }}</h3>
+  {% if workout.goal %}
+            <h3>Obiectivul antrenamentului: {{ workout.goal }}</h3>
+   {% else %}
+   <h3>Obiectivul antrenamentului: general</h3>
+  {% endif %}
   <h3>Descrierea antrenamentului: {{ workout.description }}</h3>
   {%  if workout.equipment == 'Nu, antrenament acasa' %}
       <h3>Antrenament pentru acasa, nu este nevoie de echipament.</h3>

@@ -1,6 +1,5 @@
 {% extends 'base_generic.html' %}
 {% load static %}
-
 {% block content %}
 <style>
 input[type="file"] {
@@ -13,8 +12,6 @@ input[type="file"] {
     cursor: pointer;
 }
 #birth_date {
-  display: flex;
-  flex-direction: row;
   align-items: center;
 }
 .ui-datepicker-trigger {
@@ -24,19 +21,29 @@ input[type="file"] {
   cursor: pointer;
   height: 40px;
 }
+#id_current_weight{
+  min-height: 50px;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  font-size: 16px;
+  padding: 10px 0;
+  box-sizing: border-box;
+  height: 30px;
+}
 
 </style>
 <div class="main showcase">
-  <h1>Edit Profile</h1>
+  <h1>Editeaza Profilul</h1>
   <form id="form" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <div id="birth_date" class="form-group" style="width:50%">
+    <div id="birth_date" class="form-group">
       <label for="{{ form.date_of_birth.id_for_label }}">Data Nasterii:</label>
       {{ form.date_of_birth }}
     </div>
   </br>
     <div class="form-group">
-      <label for="{{ form.current_weight.id_for_label }}">Greutate:</label>
+      <label for="{{ form.current_weight.id_for_label }}">Greutate(kg):</label>
       {{ form.current_weight }}
     </div>
   </br>

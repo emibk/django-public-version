@@ -1,10 +1,38 @@
-<head></head>
+<head>
+	<style>
+	form {
+		border: 3px solid #f1f1f1;
+	}
+	input[type=text], input[type=password] {
+		width: 100%;
+		padding: 12px 20px;
+		margin: 8px 0;
+		display: inline-block;
+		border: 1px solid #ccc;
+		box-sizing: border-box;
+	}
+	input[type=submit] {
+		background-color: #04AA6D;
+		color: white;
+		padding: 14px 20px;
+		margin: 8px 0;
+		border: none;
+		cursor: pointer;
+		width: 100%;
+	}
+
+	input[type=submit]:hover {
+		opacity: 0.8;
+	}
+
+</style>
+</head>
 <body>
 {% block content %}
 
 <form method="POST" novalidate>
 	{% csrf_token %}
-	<h2>Sign Up</h2>
+	<h2>Inregistrare</h2>
 	{{ form.as_p }}		
 	<input type="submit" value="Register" />
 </form>

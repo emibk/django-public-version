@@ -1,0 +1,75 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+  #id_calories {
+    min-height: 50px;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-size: 16px;
+    padding: 10px 0;
+    box-sizing: border-box;
+    height: 30px;
+  }
+  .btn-primary{
+    background-color: black;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px; 
+    padding: 2px 8px;
+          
+  }
+</style>
+<div class="main">
+  <h1>Adauga calorii</h1>
+  <form method="post">
+    {% csrf_token %}
+    <label for="{{ form.meal_type.id_for_label }}">Masa:</label>
+    {{ form.meal_type }}
+    <label for="{{ form.food.id_for_label }}">Mancare:</label>
+    {{ form.food }}
+    <label for="{{ form.calories.id_for_label }}">Kcal(nr):</label>
+    {{ form.calories }}
+    <button type="submit">Adauga Calorii</button>
+  </form>
+  {% for entry in calorie_entries %}
+    </br><button class="btn btn-primary" onclick="toggleCalories('{{ entry.date }}')">
+      {{ entry.date }}
+    </button>
+    Calorii totale: {{ entry.total_calories }}
+    <div id="calories-entries-{{ entry.date }}" class="calories-entries" style="display:none;">
+      {% for food in entry.foods %}
+        <p>Mancare: {{ food.food }}</p>
+        <p>Kcal: {{ food.calories }}</p>
+        <p>Tip de masa: {{ food.meal_type}}</p>
+        <hr>
+      {% endfor %}
+    </div>
+  {% endfor %}
+
+
+
+
+
+
+  
+</div>
+
+<script>
+  function toggleCalories(date) {
+    const caloriesElement = document.getElementById(`calories-entries-${date}`);
+    if (caloriesElement.style.display === 'none') {
+      caloriesElement.style.display = 'block';
+     
+    } else {
+      caloriesElement.style.display = 'none';
+    }
+  }
+</script>
+{% endblock %}

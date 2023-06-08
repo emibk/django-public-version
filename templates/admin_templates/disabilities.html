@@ -1,0 +1,63 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+<style>
+  #hideAllButton{
+    background-color: black;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px; 
+    padding: 2px 8px;
+}
+</style>
+<div class="main showcase" >
+  <button id="hideAllButton">Ascunde toate dizabilitatile</button>
+  <h2 id="disabilitiesTitle"> Lista de dizabilitati </h2>
+  <div id="disabilitiesList" style="display: grid; grid-template-columns: repeat(2, 1fr); grid-gap: 20px;">
+    
+    {% for disability in disabilities %}
+     <div style="display: flex; align-items: center;" >
+       <span>{{ disability.name }}</span>
+       <form method="POST" action="" style="background-color: transparent; margin-left: 5px;">
+         {% csrf_token %}
+         {{ delete_form.as_p }}
+         <input type="hidden" name="disability_id" value="{{ disability.id }}">
+         <button type="submit" name="delete-goal" style="font-size: 15px; padding: 2px 8px;">Sterge</button>
+       </form>
+      
+     </div>
+
+  {% endfor %}
+  </div>
+  <h2> Adauga o noua dizabilitate </h2>
+  <form method="POST" >
+    {% csrf_token %}
+    <label for="{{ form.name.id_for_label }}">Nume:</label>
+    {{ form.name }}
+    <button type="submit">Adauga</button>
+  </form>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const hideAllButton = document.getElementById('hideAllButton');
+    const disabilitiesList = document.getElementById('disabilitiesList');
+    const disabilitiesTitle = document.getElementById('disabilitiesTitle');
+    hideAllButton.addEventListener('click', function() {
+      if (disabilitiesList.style.display === 'none') {
+        disabilitiesList.style.display = 'grid';
+        disabilitiesList.style.gridTemplateColumns = 'repeat(2, 1fr)';
+        disabilitiesList.style.gridGap = '20px';
+        disabilitiesTitle.style.display = 'block';
+        hideAllButton.innerText = 'Ascunde toate dizabilitatile';
+      } else {
+        disabilitiesList.style.display = 'none';
+        disabilitiesTitle.style.display = 'none';
+        hideAllButton.innerText = 'Afiseaza toate dizabilitatile';
+      }
+    });
+  });
+</script>
+{% endblock %}

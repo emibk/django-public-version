@@ -13,4 +13,3 @@ class CommentForm(forms.ModelForm):
             'class': 'form-control',
             'placeholder': 'Adaugă un comentariu...',
         })
-        self.fields['text'].label = 'Adauga un nou comentariu'

@@ -7,9 +7,11 @@ from workouts.forms import CommentForm
 from django.contrib.auth.models import User
 from workouts.models import Reaction
 
-@login_required
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.models import Group
 
 @login_required
+@user_passes_test(lambda user: user.groups.filter(name='Utilizator').exists())
 def followings_posts(request, username):
     user = User.objects.get(username=username)
     followings = Follow.objects.filter(follower=request.user)
