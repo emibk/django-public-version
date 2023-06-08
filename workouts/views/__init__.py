@@ -23,3 +23,4 @@ from .admin_views.disabilities import disability_list
 from .admin_views.exercises import exercise_list
 from .admin_views.workouts import workoutadmin_list
 from .admin_views.workouts import workoutplan_list
+from .settings import settings

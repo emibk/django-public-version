@@ -1,0 +1,19 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+<div class="main">
+    <h2>Setari</h2>
+
+    <h3>Email present: {{ user.email }}</h3>
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        <label for="{{ form.new_email.id_for_label }}">Email nou:</label>
+        {{ form.new_email }}
+
+        <input type="submit" value="Schimba email" style="background-color: black;
+        color: white;">
+    </form></br>
+    <p>Pentru a reseta parola, selecteaza urmatorul link</p> 
+    <a href="{% url 'password_reset' %}">Reseteaza Parola</a>
+</div>
+{% endblock %}

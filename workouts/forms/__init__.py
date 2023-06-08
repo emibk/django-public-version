@@ -11,3 +11,4 @@ from .admin_forms.disabilities import DisabilityDeleteForm, DisabilityForm
 from .admin_forms.exercises import ExerciseDeleteForm, ExerciseForm
 from .admin_forms.workouts import WorkoutDeleteForm, WorkoutForm, WorkoutDayExerciseForm, WorkoutDayExerciseDeleteForm
 from .calories import CaloriesForm
+from .settings import EmailUpdateForm

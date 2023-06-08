@@ -37,12 +37,13 @@ urlpatterns = [
 ]
 
    
-
+from django.contrib.auth import views as auth_views
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += [
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/register/', views.sign_up, name='register'),
+  
     path('profile/<str:username>/', views.profile_view, name='profile_view'),
     path('profile/edit/<str:username>/', views.change_profile, name='change_profile'),
     path('profile/<str:username>/posts/', views.user_posts, name='user_posts'),
@@ -61,5 +62,5 @@ urlpatterns += [
     path('payment/', views.payment_view, name='payment'),
     path('payment_successful/', views.payment_successful_view, name='payment_sucessful'),
     path('contact/', views.contact_form, name='contact'),
-    
+    path('settings/', views.settings, name='settings'),
 ]

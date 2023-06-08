@@ -22,9 +22,9 @@
     <form method="post">
         {% csrf_token %}
         
-        <label for="{{ form.form.email.id_for_label }}">Email:</label>
+        <label for="{{ form.email.id_for_label }}">Email:</label>
         {{ form.email }}
-        <label for="{{ form.form.text.id_for_label }}">Mesaj:</label>
+        <label for="{{ form.text.id_for_label }}">Mesaj:</label>
         {{ form.text }}
         <button type="submit">Trimite mesajul</button>
     </form>

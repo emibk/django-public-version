@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.core.mail import EmailMessage
 from workouts.forms import ContactForm
-from django.core.mail import send_mail
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import Group
+from django.conf import settings
+
 
 @login_required
 @user_passes_test(lambda user: user.groups.filter(name='Utilizator').exists())
@@ -16,21 +18,22 @@ def contact_form(request):
             text = form.cleaned_data['text']
             
             subject = f"Contactat de {username}"
-            content = f"Email: {email}\n\nMesaj: {text}"
+            content = f"Email: {email}\n\nMesaj {text}"
+            
+            
+            recipient_email = 'emilia1290@outlook.com'  
 
-            print(email)
-            sender_email = email
-            recipient_email = 'chisimemilia@example.com'
-
-            send_mail(
+            email_message = EmailMessage(
                 subject,
                 content,
-                email, 
+                settings.DEFAULT_FROM_EMAIL,
                 [recipient_email],
-                fail_silently=False
+                reply_to=[email]
+
             )
+            email_message.send()
+
             return render(request, 'contact/contact_form_sent.html')
     else:
-       
         form = ContactForm()
     return render(request, 'contact/contact.html', {'form': form})
