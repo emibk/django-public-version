@@ -17,7 +17,7 @@ RUN pip3 install -r requirements.txt --no-cache-dir
 COPY . /app
 
 # Migrate changes to database
-RUN python3 manage.py migrate
+RUN python manage.py migrate
 
 # Run the Django server
 ENTRYPOINT ["python3"]
