@@ -7,6 +7,8 @@ services:
       dockerfile: Dockerfile
     container_name: website
     restart: always
+    env_file:
+      - .env
     networks:
       - website
     depends_on:
@@ -28,11 +30,11 @@ services:
   nginx:
     image: nginx
     volumes:
-      - ./default.conf.template:/etc/nginx/templates/default.conf.template
+      - ./templates:/etc/nginx/templates
     ports:
       - "80:80"
     environment:
-      NGINX_HOST: 34.65.44.220
+      NGINX_HOST: localhost
     networks:
       - website
     depends_on:
