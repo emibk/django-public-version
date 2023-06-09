@@ -30,7 +30,7 @@ services:
   nginx:
     image: nginx
     volumes:
-      - ./templates:/etc/nginx/templates
+      - ./default.conf.template:/etc/nginx/templates/default.conf.template
     ports:
       - "80:80"
     environment:
