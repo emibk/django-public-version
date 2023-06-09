@@ -16,6 +16,9 @@ RUN pip3 install -r requirements.txt --no-cache-dir
 # Copy the project code into the container
 COPY . /app
 
+# Migrate changes to database
+RUN python3 manage.py migrate
+
 # Run the Django server
-ENTRYPOINT ["python3"]  
+ENTRYPOINT ["python3"]
 CMD ["manage.py", "runserver", "0.0.0.0:8000"]
