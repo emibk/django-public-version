@@ -86,11 +86,11 @@ LANGUAGE_CODE = 'ro'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'fitness_d',
+        'NAME': 'db',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'postgres',
-        'PORT': '9090',
+        'PORT': '5432',
     }
 }
 LOCALE_PATHS = [
