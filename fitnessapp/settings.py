@@ -27,12 +27,13 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['34.65.44.220']
+ALLOWED_HOSTS = ['*']
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
 
 # Application definition
 PAYMENT_HOST = 'http://localhost'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
