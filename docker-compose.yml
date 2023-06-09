@@ -6,6 +6,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: website
+    volumes:
+      - ./media:/app/media
     restart: always
     env_file:
       - .env
@@ -29,6 +31,7 @@ services:
 
   nginx:
     image: nginx
+    container_name: nginx
     volumes:
       - ./default.conf.template:/etc/nginx/templates/default.conf.template
       - ./static:/home/app/microservice/static
@@ -36,7 +39,7 @@ services:
     ports:
       - "80:80"
     environment:
-      NGINX_HOST: 34.65.44.220
+      NGINX_HOST: localhost
     networks:
       - website
     depends_on:
