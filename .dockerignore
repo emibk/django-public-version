@@ -1,0 +1,1 @@
+# Ignore development-related filesfitnessenv.git.gitignore*.pyc*.pyo*.pyd*.swp*.swo*.log*.sqlite3# Ignore static and media files (usually collected separately)staticfilesmedia# Ignore temporary files*.tmp# Ignore Docker-specific filesDockerfile.dockerignore
