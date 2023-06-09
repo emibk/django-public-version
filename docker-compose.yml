@@ -31,6 +31,8 @@ services:
     image: nginx
     volumes:
       - ./default.conf.template:/etc/nginx/templates/default.conf.template
+      - ./static:/home/app/microservice/static
+      - ./media:/home/app/microservice/media
     ports:
       - "80:80"
     environment:
