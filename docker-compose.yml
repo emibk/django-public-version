@@ -39,7 +39,7 @@ services:
     ports:
       - "80:80"
     environment:
-      NGINX_HOST: localhost
+      NGINX_HOST: 34.65.44.220
     networks:
       - website
     depends_on:
