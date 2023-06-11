@@ -15,6 +15,7 @@ def payment_view(request):
     if request.method == 'POST':
         form = PaymentForm(request.POST)
         if form.is_valid():
+           
             token = form.cleaned_data['stripeToken']
             try:
                 payment_intent = stripe.PaymentIntent.create(
