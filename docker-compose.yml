@@ -34,12 +34,15 @@ services:
     container_name: nginx
     volumes:
       - ./default.conf.template:/etc/nginx/templates/default.conf.template
+      - /etc/ssl/certs/mypersonalfitness.pro.pem:/etc/ssl/certs/mypersonalfitness.pro.pem
+      - /etc/ssl/private/mypersonalfitness.pro.key:/etc/ssl/private/mypersonalfitness.pro.key
       - ./static:/home/app/microservice/static
       - ./media:/home/app/microservice/media
     ports:
       - "80:80"
+      - "443:443"
     environment:
-      NGINX_HOST: 34.65.44.220
+      NGINX_HOST: mypersonalfitness.pro
     networks:
       - website
     depends_on:

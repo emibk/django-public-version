@@ -8,7 +8,7 @@
   <form id="payment-form" method="post" action="{% url 'payment' %}">
     {% csrf_token %}
     <div class="form-group">
-      <label for="card-number">Numar card</label>
+      <label for="card-number">Informatii card</label>
       <div id="card-element"></div>
     </div>
     <button type="submit">Plateste</button>

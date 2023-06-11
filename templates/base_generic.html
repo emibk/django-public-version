@@ -156,6 +156,13 @@
             </a>
         </li>
     {% endif %}
+    {% if user.is_authenticated and user|user_belongs_to_group:'Utilizator' and user|user_belongs_to_group:'Platitor' %}
+        <li>
+            <a class="nav-link" href="{% url 'calories_intake' %}">
+                <span>Calorii</span>
+            </a>
+        </li>
+    {% endif %}
     {% if user.is_authenticated and user|user_belongs_to_group:'Administrator' %}
         <li>
             <a class="nav-link" href="{% url 'admin_goals' %}">

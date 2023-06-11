@@ -10,7 +10,7 @@ from django.contrib.auth.models import Group
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 @login_required
-@user_passes_test(lambda user: user.groups.filter(name='Utilizator').exists())
+@user_passes_test(lambda user: user.groups.filter(name='Utilizator').exists() and not user.groups.filter(name='Platitor').exists())
 def payment_view(request):
     if request.method == 'POST':
         form = PaymentForm(request.POST)
