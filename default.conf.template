@@ -42,8 +42,4 @@ server {
     location /media/ {
         alias /home/app/microservice/media/;
     }
-
-    location ^~ /.well-known/acme-challenge/ {
-        root /var/www/html;
-    }
 }
