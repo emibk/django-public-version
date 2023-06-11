@@ -12,6 +12,9 @@ venv
 .env
 node_modules
 
+# Ignore media folder
+media
+
 # Ignore temporary files
 *.tmp
 
