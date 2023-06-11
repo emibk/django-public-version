@@ -1,5 +1,5 @@
 # Ignore development-related files
-venv
+fitnessenv
 .git
 .gitignore
 *.pyc
@@ -9,8 +9,6 @@ venv
 *.swo
 *.log
 *.sqlite3
-.env
-node_modules
 
 # Ignore media folder
 media
