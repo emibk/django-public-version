@@ -39,6 +39,10 @@ server {
         alias /home/app/microservice/static/;
         add_header Access-Control-Allow-Origin *;
     }
+    location /staticfiles/ {
+        alias /home/app/microservice/static/;
+        add_header Access-Control-Allow-Origin *;
+    }
 
     location /media/ {
         alias /home/app/microservice/media/;
