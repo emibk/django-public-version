@@ -17,6 +17,7 @@ RUN pip3 install -r requirements.txt --no-cache-dir
 COPY . /app
 # Copy the static files to the appropriate location
 COPY static /app/microservice/static
+COPY background.jpg /app/microservice/static/
 
 # Create a volume for the media files
 VOLUME /app/microservice/media
