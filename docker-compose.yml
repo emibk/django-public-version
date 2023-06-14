@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: website
     volumes:
-      - static:/app/static
+      - ./static:/app/static
       - media:/app/media
     restart: always
     env_file:
@@ -37,7 +37,7 @@ services:
       - ./default.conf.template:/etc/nginx/templates/default.conf.template
       - /etc/ssl/certs/mypersonalfitness.pro.pem:/etc/ssl/certs/mypersonalfitness.pro.pem
       - /etc/ssl/private/mypersonalfitness.pro.key:/etc/ssl/private/mypersonalfitness.pro.key
-      - static:/home/app/microservice/static
+      - ./static:/home/app/microservice/static
       - media:/home/app/microservice/media
     ports:
       - "80:80"
@@ -51,8 +51,6 @@ services:
     restart: always
 
 volumes:
-  static:
-    name: website-static
   media:
     name: website-media
   postgres:
