@@ -19,7 +19,6 @@ COPY . /app
 COPY static /app/microservice/static
 
 # Create a volume for the media files
-VOLUME /app/microservice/media
 
 
 # Run the Django server
