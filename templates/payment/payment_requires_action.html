@@ -1,58 +1,51 @@
-<h1>Payment Action Required</h1>
-<p>Please follow the instructions below to complete your payment:</p>
+{% extends 'base_generic.html' %}
+{% block content %}
+    <h1>Finalizati actiunea</h1>
+    <p>Instructiunile sunt afisate mai jos:</p>
 
-<!-- Retrieve the client secret and PaymentIntent ID from the template context -->
-{% with payment_intent_id=payment_intent.id client_secret=payment_intent.client_secret %}
+    {% with payment_intent_id=payment_intent.id client_secret=payment_intent.client_secret %}
 
-    <!-- Display the payment action message -->
-    <p>{{ payment_intent.next_action.message }}</p>
+        <p>{{ payment_intent.next_action.message }}</p>
 
-    {% if payment_intent.next_action.type == 'use_stripe_sdk' %}
-        <!-- Render a form with Stripe.js to handle the payment action -->
-        <form id="stripe-action-form">
-            <!-- Include necessary fields and submit button -->
-            <input type="hidden" name="payment_intent_id" value="{{ payment_intent_id }}">
-            <div id="card-element"></div>
-            <div id="card-errors" role="alert"></div>
-            <button id="submit-button">Submit Payment</button>
-        </form>
-    {% endif %}
+        {% if payment_intent.next_action.type == 'use_stripe_sdk' %}
+            <form id="stripe-action-form">
+                <input type="hidden" name="payment_intent_id" value="{{ payment_intent_id }}">
+                <div id="card-element"></div>
+                <div id="card-errors" role="alert"></div>
+                <button id="submit-button">Finalizeaza plata</button>
+            </form>
+        {% endif %}
 
-{% endwith %}
+    {% endwith %}
 
-<script src="https://js.stripe.com/v3/"></script>
-<script>
-    // Create a Stripe instance
-    var stripe = Stripe('{{ STRIPE_PUBLIC_KEY }}');
-    
-    // Retrieve the client secret and PaymentIntent ID from the HTML input fields
-    var clientSecret = document.querySelector('input[name="payment_intent_id"]').value;
-    var paymentIntentId = document.querySelector('input[name="payment_intent_id"]').value;
-    
-    // Create a card element
-    var elements = stripe.elements();
-    var cardElement = elements.create('card');
-    cardElement.mount('#card-element');
-    
-    // Handle the payment action submission
-    var form = document.getElementById('stripe-action-form');
-    var errorElement = document.getElementById('card-errors');
-    var submitButton = document.getElementById('submit-button');
-    
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        submitButton.disabled = true;
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var stripe = Stripe('{{ STRIPE_PUBLIC_KEY }}');
         
-        stripe.handleCardPayment(clientSecret, cardElement)
-            .then(function(result) {
-                if (result.error) {
-                    // Display error message to the user
-                    errorElement.textContent = result.error.message;
-                    submitButton.disabled = false;
-                } else {
-                    // Payment action succeeded, redirect to success page
-                    window.location.href = "{% url 'payment_successful' %}";
-                }
-            });
-    });
-</script>
+        var clientSecret = document.querySelector('input[name="payment_intent_id"]').value;
+        var paymentIntentId = document.querySelector('input[name="payment_intent_id"]').value;
+        
+        var elements = stripe.elements();
+        var cardElement = elements.create('card');
+        cardElement.mount('#card-element');
+        
+        var form = document.getElementById('stripe-action-form');
+        var errorElement = document.getElementById('card-errors');
+        var submitButton = document.getElementById('submit-button');
+        
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            submitButton.disabled = true;
+            
+            stripe.handleCardPayment(clientSecret, cardElement)
+                .then(function(result) {
+                    if (result.error) {
+                        errorElement.textContent = result.error.message;
+                        submitButton.disabled = false;
+                    } else {
+                        window.location.href = "{% url 'payment_successful' %}";
+                    }
+                });
+        });
+    </script>
+{% endblock %}
