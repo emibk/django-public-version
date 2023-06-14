@@ -16,7 +16,7 @@ RUN pip3 install -r requirements.txt --no-cache-dir
 # Copy the project code into the container
 COPY . /app
 # Copy the static files to the appropriate location
-COPY static /app/microservice/static
+
 
 # Create a volume for the media files
 
