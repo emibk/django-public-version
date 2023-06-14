@@ -39,7 +39,8 @@ def payment_view(request):
                     error_message = "Incercati cu o metoda valida de plata."
                     return render(request, 'payment/payment.html', {'form': form, 'error_message': error_message})
                 elif payment_intent.status == 'requires_action':
-                    return render(request, 'payment/payment_requires_action.html')
+                    client_secret = payment_intent.client_secret
+                    return render(request, 'payment/payment_requires_action.html', {'client_secret': client_secret, 'payment_intent_id': payment_intent.id})
                 else:
                     error_message = "Plata a esuat."
                     return render(request, 'payment/payment.html', {'form': form, 'error_message': error_message})
