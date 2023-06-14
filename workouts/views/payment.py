@@ -39,12 +39,11 @@ def payment_view(request):
                     error_message = "Incercati cu o metoda valida de plata."
                     return render(request, 'payment/payment.html', {'form': form, 'error_message': error_message})
                 elif payment_intent.status == 'requires_action':
-                    action_message = payment_intent.next_action['message']
-                    return render(request, 'payment/payment_requires_action.html', {'action_message': action_message})
+                    return render(request, 'payment/payment_requires_action.html')
                 else:
                     error_message = "Plata a esuat."
                     return render(request, 'payment/payment.html', {'form': form, 'error_message': error_message})
-
+                return render(request, 'payment/payment_successful.html')
             except stripe.error.CardError as e:
                 error_message = e.error.message
                 return render(request, 'payment/payment.html', {'form': form, 'error_message': error_message})
