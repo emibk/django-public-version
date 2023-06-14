@@ -17,5 +17,5 @@ media
 *.tmp
 
 # Ignore Docker-specific files
-
+Dockerfile
 .dockerignore
