@@ -40,8 +40,8 @@ SESSION_COOKIE_SECURE = True
 
 
 # Application definition
-PAYMENT_HOST = 'http://localhost'
-#PAYMENT_HOST = 'https://mypersonalfitness.pro'
+#PAYMENT_HOST = 'http://localhost'
+PAYMENT_HOST = 'https://mypersonalfitness.pro'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
