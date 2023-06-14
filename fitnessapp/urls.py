@@ -60,7 +60,7 @@ urlpatterns += [
     path('profile/<str:username>/progress/', views.progress_list, name='progress_list'),
     path('progress/?filter=date_desc', views.progress_list, name='progress_list'),
     path('payment/', views.payment_view, name='payment'),
-    path('payment_successful/', views.payment_successful_view, name='payment_sucessful'),
+    path('payment_successful/', views.payment_successful_view, name='payment_successful'),
     path('contact/', views.contact_form, name='contact'),
     path('settings/', views.settings, name='settings'),
 ]
