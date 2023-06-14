@@ -150,25 +150,25 @@
 </div>
 </div>
 <script>
-const textField = document.querySelector('#{{ form.text.id_for_label }}');
+    const textField = document.querySelector('#{{ form.text.id_for_label }}');
 
-textField.addEventListener('input', function() {
-  this.style.height = 'auto';
-  this.style.height = this.scrollHeight + 'px';
-});
+    textField.addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = this.scrollHeight + 'px';
+    });
 
-textField.setAttribute('rows', '1');
+    textField.setAttribute('rows', '1');
 </script>
 <script>
-document.getElementById("show-more-comments").addEventListener("click", function() {
-    var hiddenComments = document.getElementById("hidden-comments");
-    if (hiddenComments.style.display === "none") {
-        hiddenComments.style.display = "block";
-        this.innerHTML = "Arata doar primele 5 comentarii";
-    } else {
-        hiddenComments.style.display = "none";
-        this.innerHTML = "Arata restul comentariilor";
-    }
-});
+    document.getElementById("show-more-comments").addEventListener("click", function() {
+        var hiddenComments = document.getElementById("hidden-comments");
+        if (hiddenComments.style.display === "none") {
+            hiddenComments.style.display = "block";
+            this.innerHTML = "Arata doar primele 5 comentarii";
+        } else {
+            hiddenComments.style.display = "none";
+            this.innerHTML = "Arata restul comentariilor";
+        }
+    });
 </script>
 {% endblock %}

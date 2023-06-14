@@ -64,31 +64,29 @@
     <button type="submit">Adauga o postare</button>
   </form>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-  $(document).ready(function() {
-    $('#{{ form.post_type.id_for_label }}').on('change', function() {
-      if ($(this).find('option:selected').text() === 'Schimbare in greutate') {
+  document.addEventListener('DOMContentLoaded', function() {
+    var postTypeSelect = document.getElementById('{{ form.post_type.id_for_label }}');
+    postTypeSelect.addEventListener('change', function() {
+      var selectedOption = postTypeSelect.options[postTypeSelect.selectedIndex];
+      if (selectedOption.text === 'Schimbare in greutate') {
         var weight = 0;
         
-        
-        while (weight <= 30 || isNaN(weight) ) {
-          weight = parseInt(window.prompt("Introduceti greutatea:", ""));
+        while (weight <= 30 || isNaN(weight)) {
+          weight = parseInt(prompt("Introduceti greutatea:", ""));
           
           if (weight > 30) {
-            $('#{{ form.text.id_for_label }}').val("{{username}} si-a setat greutatea la " + weight + " kg");
-            $('#{{ form.text.id_for_label }}').prop('readonly', true); // set the readonly property to true
-
-            
+            var textInput = document.getElementById('{{ form.text.id_for_label }}');
+            textInput.value = "{{username}} si-a setat greutatea la " + weight + " kg";
+            textInput.readOnly = true;
           } else {
-            
-            window.alert('Alegeti o greutate reala.');
+            alert('Alegeti o greutate reala.');
           }
         }
       }
     });
   });
-
+  
 </script>
 {% endblock %}

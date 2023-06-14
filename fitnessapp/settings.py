@@ -25,9 +25,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
+DEBUG = True
 ALLOWED_HOSTS = ['*']
+#DEBUG = False
+
+#ALLOWED_HOSTS = ['*']
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
 
@@ -38,6 +40,7 @@ SESSION_COOKIE_SECURE = True
 
 
 # Application definition
+#PAYMENT_HOST = 'http://localhost'
 PAYMENT_HOST = 'https://mypersonalfitness.pro'
 
 INSTALLED_APPS = [
@@ -89,21 +92,21 @@ WSGI_APPLICATION = 'fitnessapp.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 USE_L10N = True
 LANGUAGE_CODE = 'ro'
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'db',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'postgres',
-        'PORT': '5432',
+        'NAME': 'fitness_d',
+        'USER': 'emilia',
+        'PASSWORD': '123',
+        'HOST': '127.0.0.1',
+        'PORT': '9090',
     }
 }
 
-LOCALE_PATHS = [
-    os.path.join(BASE_DIR, 'locale'),
-]
+
+#LOCALE_PATHS = [
+#    os.path.join(BASE_DIR, 'locale'),
+#]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

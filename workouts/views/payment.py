@@ -35,8 +35,16 @@ def payment_view(request):
                     user = request.user
                     payer_group, _ = Group.objects.get_or_create(name='Platitor')
                     user.groups.add(payer_group)
-                
-                return render(request, 'payment/payment_successful.html')
+                elif payment_intent.status == 'requires_payment_method':
+                    error_message = "Incercati cu o metoda valida de plata."
+                    return render(request, 'payment/payment.html', {'form': form, 'error_message': error_message})
+                elif payment_intent.status == 'requires_action':
+                    action_message = payment_intent.next_action['message']
+                    return render(request, 'payment/payment_requires_action.html', {'action_message': action_message})
+                else:
+                    error_message = "Plata a esuat."
+                    return render(request, 'payment/payment.html', {'form': form, 'error_message': error_message})
+
             except stripe.error.CardError as e:
                 error_message = e.error.message
                 return render(request, 'payment/payment.html', {'form': form, 'error_message': error_message})
