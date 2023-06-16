@@ -19,7 +19,7 @@ def payment_view(request):
             token = form.cleaned_data['stripeToken']
             try:
                 payment_intent = stripe.PaymentIntent.create(
-                    amount=3000,
+                    amount=300,
                     currency='ron',
                     payment_method=token,
                     confirm=True,  
