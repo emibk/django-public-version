@@ -10,7 +10,7 @@ from .reaction import Reaction
 from .comment import Comment
 from .progress import Progress
 from .followers import Follow
-
+from .friendship import Friendship
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
