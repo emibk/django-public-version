@@ -18,5 +18,5 @@ class UserInfoForm(ModelForm):
     def clean_date_of_birth(self):
         date_of_birth = self.cleaned_data['date_of_birth']
         if date_of_birth >= date(2006, 1, 1) or date_of_birth <= date(1920, 1, 1):
-            raise forms.ValidationError('Please enter a valid date of birth')
+            raise forms.ValidationError('Data invalida')
         return date_of_birth

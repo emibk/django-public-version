@@ -60,48 +60,48 @@
 </div>
 
 {% block scripts %}
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
-<script>
-  const form = document.getElementById("{{ form.date_of_birth.id_for_label }}");
-  const btnSubmit = document.querySelector(".btn");
+  <script>
+    const form = document.getElementById("{{ form.date_of_birth.id_for_label }}");
+    const btnSubmit = document.querySelector(".btn");
 
-  function test() {
-    const birthDate = new Date(form.value);
-    const today = new Date();
-    const age = today.getFullYear() - birthDate.getFullYear();
-    const month = today.getMonth() - birthDate.getMonth();
+    function test() {
+      const birthDate = new Date(form.value);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear();
+      const month = today.getMonth() - birthDate.getMonth();
 
-    if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
+      if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
 
-    if (age >= 18) {
-      btnSubmit.disabled = false;
-    } else {
-      btnSubmit.disabled = true;
-      alert("Trebuie sa fii major!");
-    }
-  }
-
-  form.addEventListener("change", test);
-</script>
-
-<script>
-  flatpickr("#{{ form.date_of_birth.id_for_label }}", {
-    dateFormat: 'Y-m-d',
-    altInput: true,
-    altFormat: 'd-m-Y',
-    maxDate: new Date().fp_incr(-18),
-    locale: {
-      firstDayOfWeek: 1,
-      months: {
-        shorthand: ['Ian', 'Feb', 'Mar', 'Apr', 'Mai', 'Iun', 'Iul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        longhand: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie']
+      if (age >= 18) {
+        btnSubmit.disabled = false;
+      } else {
+        btnSubmit.disabled = true;
+        alert("Trebuie sa fii major!");
       }
     }
-  });
-</script>
+
+    form.addEventListener("change", test);
+  </script>
+
+  <script>
+    flatpickr("#{{ form.date_of_birth.id_for_label }}", {
+      dateFormat: 'Y-m-d',
+      altInput: true,
+      altFormat: 'd-m-Y',
+      maxDate: new Date().fp_incr(-18),
+      locale: {
+        firstDayOfWeek: 1,
+        months: {
+          shorthand: ['Ian', 'Feb', 'Mar', 'Apr', 'Mai', 'Iun', 'Iul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          longhand: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie']
+        }
+      }
+    });
+  </script>
   {% endblock %}
 {% endblock %}

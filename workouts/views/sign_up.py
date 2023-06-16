@@ -21,7 +21,7 @@ def sign_up(request):
                 login(request, user)
                 return redirect(reverse('workouts'))
             else:
-                error_msg = "Invalid email or password. Please try again."
+                error_msg = "Parola sau mail invalid. Incearca din nou."
                 return render(request, 'registration/register.html', {'form': form, 'error_msg': error_msg})
     else:
         form = RegisterForm()

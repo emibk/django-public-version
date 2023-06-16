@@ -13,7 +13,6 @@ def follow_view(request, username):
     if request.method == 'POST':
         form = FollowForm(request.POST)
         if form.is_valid():
-            # Create a Follow object with the logged-in user as the follower and the viewed user as the following
             follow = form.save(commit=False)
             follow.follower = request.user
             follow.following = user
@@ -37,7 +36,6 @@ def unfollow_view(request, username):
     if request.method == 'POST':
         form = UnfollowForm(request.POST)
         if form.is_valid():
-            # Delete the Follow object with the logged-in user as the follower and the viewed user as the following
             Follow.objects.filter(follower=request.user, following=user).delete()
             messages.success(request, f'You have unfollowed {user.username}.')
             return redirect(reverse('profile_view', args=[user.username]))

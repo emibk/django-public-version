@@ -9,7 +9,6 @@ from .post import Post
 from .reaction import Reaction
 from .comment import Comment
 from .progress import Progress
-from .friendship import Friendship
 from .followers import Follow
 
 from django.db.models.signals import post_save

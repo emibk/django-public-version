@@ -49,7 +49,6 @@ class Workout(models.Model):
     def __str__(self):
         return self.name
     def save(self, *args, **kwargs):
-        # delete old file if this is an update
         try:
             this = Workout.objects.get(id=self.id)
             if this.image != self.image:
@@ -57,5 +56,4 @@ class Workout(models.Model):
         except Workout.DoesNotExist:
             pass
 
-        # save new file
         super(Workout, self).save(*args, **kwargs)

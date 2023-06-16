@@ -1,5 +1,6 @@
 {% extends 'base_generic.html' %}
 {% block content %}
+<div class="main showcase">
     <h1>Finalizati actiunea</h1>
     <p>Instructiunile sunt afisate mai jos:</p>
 
@@ -17,7 +18,7 @@
         {% endif %}
 
     {% endwith %}
-
+ </div>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         var stripe = Stripe('{{ STRIPE_PUBLIC_KEY }}');
@@ -26,7 +27,22 @@
         var paymentIntentId = document.querySelector('input[name="payment_intent_id"]').value;
         
         var elements = stripe.elements();
-        var cardElement = elements.create('card');
+        var cardElement = elements.create('card', {
+            style: {
+              base: {
+                iconColor: '#666EE8',
+                color: '#31325F',
+                lineHeight: '40px',
+                fontWeight: 300,
+                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                fontSize: '15px',
+                '::placeholder': {
+                  color: '#CFD7E0',
+                },
+              },
+            },
+            hidePostalCode: true, 
+          });
         cardElement.mount('#card-element');
         
         var form = document.getElementById('stripe-action-form');

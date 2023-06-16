@@ -24,7 +24,6 @@ class UserInfo(models.Model):
     def __str__(self):
         return f'{self.user.username}\'s Profile'
     def save(self, *args, **kwargs):
-        # delete old file if this is an update
         try:
             this = UserInfo.objects.get(id=self.id)
             if this.profile_image != self.profile_image:
@@ -32,5 +31,4 @@ class UserInfo(models.Model):
         except UserInfo.DoesNotExist:
             pass
 
-        # save new file
         super(UserInfo, self).save(*args, **kwargs)
