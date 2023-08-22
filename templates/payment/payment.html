@@ -23,7 +23,7 @@
 
   <script>
     var stripe =
-    Stripe('pk_live_51LqL8pCHbRnv2yjvWJlWjcxlV8hBZrmqZP68MONVPebW0k58aJZ5jQInfXTI7yZ0Q1lC8XKCOELaVyNJLjM7xKs300KFvPJJFk');
+    Stripe('{{ STRIPE_PUBLIC_KEY }}');
     
     var elements = stripe.elements();
     console.log("script");
