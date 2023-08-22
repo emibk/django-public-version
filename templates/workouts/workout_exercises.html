@@ -1,0 +1,142 @@
+{% extends "base_generic.html" %}
+{% load custom_tags %}
+{% block content %}
+
+<style>  
+
+    .counter-btn, .counter{
+        background-color: black;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 15px; 
+        padding: 2px 8px;
+    }
+    .circle-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        border: 2px solid black;
+        margin: 0 auto;
+    }
+    
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+    }
+    
+</style>
+
+<div class="main showcase" style="width: 900px">
+    <img src="{{ workout.image.url }}" alt="image" class="bg-image"/>
+    <div class="bg-img-text">
+    <h1>{{ workout.name }}</h1>
+    <h2>Ziua {{ workout_day.day }}</h2>
+    </br>
+    {% for exercise in workout_exercises.all %}
+    <h3>Exercitiul {{ forloop.counter }}</h3>
+
+    <ul>
+        <li><h3>Nume exercitiu: {{ exercise.exercise.name }}</h3></li>
+        <li><h4>Group de muschi: {{ exercise.exercise.muscle_group }}</h4>
+        <li><h4>Descriere exercitiu: {{ exercise.exercise.description }}</h4></li>
+        <li><h4>{{ exercise.specification }}: </h4></li>
+        {% if exercise.specification == 'Seturi si Repetitii' and exercise.sets == 1 and exercise.repetitions == 1 %}
+        <li><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exercitiul se executa doar o data.</h3></li>
+        {% endif %}
+        {% if exercise.specification == 'Seturi si Repetitii' and exercise.sets == 1 and exercise.repetitions > 1 %}
+        <li><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exercitiul consta intr-un set de cate {{ exercise.repetitions }} repetitii.</h3></li>
+        {% endif %}
+        {% if exercise.specification == 'Seturi si Repetitii' and exercise.sets > 1 and exercise.repetitions > 1 %}
+        <li><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exercitiul consta in {{ exercise.sets }} seturi de cate {{ exercise.repetitions }} repetitii.</h3></li>
+        {% endif %}
+        {% if exercise.specification == 'Timp' %}
+        <li><h3> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Durata exercitiului: {{ exercise.time }} secunde.</h3></li>
+        <div class="circle-container">
+            <h3>Cronometru</h3>
+            <div class="button-container">
+                <button class="counter-btn" data-time="{{ exercise.time }}">
+                    <span></span>
+                   Cronometreaza
+                </button>
+                <span class="counter">&nbsp;&nbsp;</span>
+            </div>
+        </div>
+        
+        {% endif %}
+        </br>
+    </ul>
+    {% empty %}
+        <p>Niciun exercitiu adaugat.</p>
+    {% endfor %}
+    
+    {% if user.is_authenticated and user|user_belongs_to_group:'Utilizator'%}
+        <form style="background-color: transparent;" method="POST" action="{% url 'add_progress' workout_day_id=workout_day.id workout_id=workout.id%}">
+            {% csrf_token %}
+            <button style="background-color: black; color: white; border-radius: 10px; " type="submit" class="btn btn-primary ">Zi finalizata</button>
+        </form>
+    {% endif %}
+
+   
+    <a class="nav-link" href="{% url 'workout_details' workout_id=workout.id%}"><span>Inapoi la pagina antrenamentului</span></a>
+
+
+
+
+
+    </div>
+    </div>
+<script>
+       
+        const counterButtons = document.querySelectorAll('.counter-btn');
+        counterButtons.forEach(button => {
+            button.addEventListener('click', startCounter);
+          });
+    
+       
+        function startCounter(event) {
+            const button = event.target;
+            const time = button.dataset.time;
+            const counter = button.nextElementSibling;
+            let remainingTime = time;
+    
+            
+            playSound();
+    
+    
+          
+            const interval = setInterval(() => {
+                if (remainingTime <= 0) {
+                 
+                    clearInterval(interval);
+                    playSound();
+                    
+                   
+                } else {
+                    counter.textContent = remainingTime;
+                    remainingTime--;
+                }
+            }, 1000);
+        }
+    
+      
+        function playSound() {
+            const audio = document.createElement('audio');
+            audio.src = "http://soundbible.com/grab.php?id=1252&type=mp3";
+            
+            audio.load();
+            audio.play();
+          }
+          
+</script>
+
+{% endblock %}
