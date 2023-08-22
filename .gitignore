@@ -9,3 +9,8 @@ env/
 sensitive_file.txt
 sensitive_directory/
 __pycache__/
+.env
+
+users/
+workouts/
+staticfiles/
